@@ -1,31 +1,47 @@
 package model.pojo;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
  * @author Sluski
  */
 public class User {
-    private int idUser;
-    private boolean isActive;
-    private boolean inConversation;
+    private final String userId;
+    private String nick;
     private List<Tag> tags;
-
-    public int getIdUser() {
-        return idUser;
+    private boolean isLooking;
+    private boolean inConversation;
+    
+    public User(){
+        userId = UUID.randomUUID().toString();
+        isLooking = false;
+        inConversation =  false;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public String getNick() {
+        return nick;
     }
 
-    public boolean isIsActive() {
-        return isActive;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
+    public String getUserId() {
+        return userId;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public boolean isIsLooking() {
+        return isLooking;
+    }
+
+    public void setIsLooking(boolean isLooking) {
+        this.isLooking = isLooking;
     }
 
     public boolean isInConversation() {
@@ -34,13 +50,5 @@ public class User {
 
     public void setInConversation(boolean inConversation) {
         this.inConversation = inConversation;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
     }
 }
