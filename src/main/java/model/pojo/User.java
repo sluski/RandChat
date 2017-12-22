@@ -9,15 +9,19 @@ import java.util.UUID;
  */
 public class User {
     private final String userId;
+    private String clientAddress;
+    private String clientSSID;
     private String nick;
-    private List<Tag> tags;
+    private List<String> tags;
     private boolean isLooking;
     private boolean inConversation;
     
-    public User(){
+    public User(String clienetAddress, String clientSSID){
         userId = UUID.randomUUID().toString();
         isLooking = false;
         inConversation =  false;
+        this.clientSSID = clientSSID;
+        this.clientAddress = clienetAddress;
     }
 
     public String getNick() {
@@ -32,11 +36,11 @@ public class User {
         return userId;
     }
 
-    public List<Tag> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public boolean isIsLooking() {
+    public boolean isLooking() {
         return isLooking;
     }
 
@@ -50,5 +54,17 @@ public class User {
 
     public void setInConversation(boolean inConversation) {
         this.inConversation = inConversation;
+    }
+
+    public String getClientAddress() {
+        return clientAddress;
+    }
+
+    public String getClientSSID() {
+        return clientSSID;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }
