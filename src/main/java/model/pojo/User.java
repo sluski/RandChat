@@ -8,16 +8,15 @@ import java.util.UUID;
  * @author Sluski
  */
 public class User {
-    private final String userId;
     private String clientAddress;
     private String clientSSID;
     private String nick;
     private List<String> tags;
     private boolean isLooking;
     private boolean inConversation;
+    private Room room;
     
     public User(String clienetAddress, String clientSSID){
-        userId = UUID.randomUUID().toString();
         isLooking = false;
         inConversation =  false;
         this.clientSSID = clientSSID;
@@ -30,10 +29,6 @@ public class User {
 
     public void setNick(String nick) {
         this.nick = nick;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
     public List<String> getTags() {

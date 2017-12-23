@@ -12,7 +12,7 @@ public class Room {
     private List<Message> messages;
     private List<String> filesPath;
     
-    public void createRoom(User firstUser, User secondUser){
+    public Room (User firstUser, User secondUser){
         this.firstUser = firstUser;
         this.secondUser = secondUser;
     }

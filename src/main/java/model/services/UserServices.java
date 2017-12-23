@@ -10,23 +10,16 @@ import model.pojo.User;
  * @author Sluski
  */
 public class UserServices extends HttpServlet{
-    User user;
+    
     public void createUser(HttpServletRequest request){
         User user = new User(request.getRemoteAddr(), request.getRequestedSessionId());
+        WaitingRoom.add(user);
     }
     
     public void createUser(HttpServletRequest request, List<String> tags){
         User user = new User(request.getRemoteAddr(), request.getRequestedSessionId());
         user.setTags(tags);
-        findRoom();
+        WaitingRoom.add(user);
     }
     
-    private void findRoom(){
-        user.setIsLooking(true);
-        while(!user.isInConversation()){
-            
-        }
-        user.setInConversation(true);
-        
-    }
 }
