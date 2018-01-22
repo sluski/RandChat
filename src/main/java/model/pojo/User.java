@@ -1,7 +1,6 @@
 package model.pojo;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -12,12 +11,11 @@ public class User {
     private String clientSSID;
     private String nick;
     private List<String> tags;
-    private boolean isLooking;
+    private boolean isActive;
     private boolean inConversation;
-    private Room room;
     
     public User(String clienetAddress, String clientSSID){
-        isLooking = false;
+        isActive = false;
         inConversation =  false;
         this.clientSSID = clientSSID;
         this.clientAddress = clienetAddress;
@@ -36,11 +34,11 @@ public class User {
     }
 
     public boolean isLooking() {
-        return isLooking;
+        return isActive;
     }
 
-    public void setIsLooking(boolean isLooking) {
-        this.isLooking = isLooking;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
     public boolean isInConversation() {

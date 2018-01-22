@@ -16,42 +16,56 @@ import model.services.UserServices;
 public class UserController {
 
     private final UserServices userServices;
-    private final List<String> categories;
-    private List<String> selectedCategories;
+    private final List<String> tags;
+    private List<String> selectedTags;
+    private String nick;
 
     public UserController() {
         userServices = new UserServices();
-        categories = new ArrayList<>();
-        selectedCategories = new ArrayList<>();
-        categories.add("Sport");
-        categories.add("IT");
-        categories.add("Music");
-        categories.add("Science");
-        categories.add("Cars");
-        categories.add("Art");
-        categories.add("Computer Games");
-        categories.add("Culture");
+        tags = new ArrayList<>();
+        selectedTags = new ArrayList<>();
+        tags.add("Sport");
+        tags.add("IT");
+        tags.add("Music");
+        tags.add("Science");
+        tags.add("Cars");
+        tags.add("Art");
+        tags.add("Computer Games");
+        tags.add("Culture");
     }
 
     public void create(HttpServletRequest request) {
-        if (!selectedCategories.isEmpty()) {
-            userServices.createUser(request, selectedCategories);
-        } else {
-            userServices.createUser(request);
-        }
-
+            if(selectedTags == null && nick.isEmpty()){
+                userServices.createUser(request);
+            }
+            if(selectedTags != null && nick.isEmpty()){
+                userServices.createUser(request, selectedTags);
+            }
+            if(selectedTags == null && !nick.isEmpty()){
+                userServices.createUser(request, nick);
+            }
+            if(selectedTags != null && !nick.isEmpty()){
+                userServices.createUser(request, selectedTags, nick);
+            }
     }
-
+    
     public List<String> getCategories() {
-        return categories;
+        return tags;
     }
 
     public List<String> getSelectedCategories() {
-        return selectedCategories;
+        return selectedTags;
     }
 
     public void setSelectedCategories(List<String> selectedCategories) {
-        this.selectedCategories = selectedCategories;
+        this.selectedTags = selectedCategories;
     }
 
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }    
 }

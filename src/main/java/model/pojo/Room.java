@@ -1,6 +1,7 @@
 package model.pojo;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -12,9 +13,10 @@ public class Room {
     private List<Message> messages;
     private List<String> filesPath;
     
-    public Room (User firstUser, User secondUser){
+    public Room (User firstUser, User secondUser, String filesPath){
         this.firstUser = firstUser;
         this.secondUser = secondUser;
+        this.filesPath = this.filesPath;
     }
     
     public void addMessage(Message message){
