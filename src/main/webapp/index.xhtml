@@ -11,7 +11,7 @@
     <h:body>
         <h:form>
             <h:inputText id="nick_text" value="#{userController.nick}" />
-            <p:selectCheckboxMenu id="categories" value="#{userController.selectedCategories}" label="Tags" multiple="true"
+            <p:selectCheckboxMenu id="categories" value="#{userController.selectedCategories}" label="Tags"
                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
                 <f:selectItems value="#{userController.categories}" />
             </p:selectCheckboxMenu>
