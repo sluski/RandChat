@@ -3,7 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.servlet.http.HttpServletRequest;
 import model.services.UserServices;
 
@@ -12,15 +12,15 @@ import model.services.UserServices;
  * @author Sluski
  */
 @ManagedBean
-@ViewScoped
-public class UserController {
+@SessionScoped
+public class StartView {
 
     private final UserServices userServices;
     private final List<String> tags;
     private List<String> selectedTags;
     private String nick;
 
-    public UserController() {
+    public StartView() {
         userServices = new UserServices();
         tags = new ArrayList<>();
         selectedTags = new ArrayList<>();
@@ -34,7 +34,7 @@ public class UserController {
         tags.add("Culture");
     }
 
-    public void create(HttpServletRequest request) {
+    public String create(HttpServletRequest request) {
             if(selectedTags == null && nick.isEmpty()){
                 userServices.createUser(request);
             }
@@ -47,6 +47,7 @@ public class UserController {
             if(selectedTags != null && !nick.isEmpty()){
                 userServices.createUser(request, selectedTags, nick);
             }
+            return "room.xhtml";
     }
     
     public List<String> getCategories() {

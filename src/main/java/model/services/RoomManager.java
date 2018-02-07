@@ -13,21 +13,23 @@ import model.pojo.User;
  */
 public class RoomManager {
 
-    private static Map<UUID, Room> rooms;
-
-    public RoomManager() {
-        rooms = new HashMap<>();
-    }
+    public static Map<UUID, Room> rooms = new HashMap<>();
 
     public void create(User firstUser, User secondUser) {
-            UUID roomRandomUUID = UUID.randomUUID();
-            Room room = new Room(firstUser, secondUser, createDir(roomRandomUUID));
-            rooms.put(roomRandomUUID, room);
+        UUID roomRandomUUID = UUID.randomUUID();
+        Room room = new Room(firstUser, secondUser, createDir(roomRandomUUID));
+        firstUser.setRoomKey(roomRandomUUID.toString());
+        if(secondUser != null) secondUser.setRoomKey(roomRandomUUID.toString());
+        rooms.put(roomRandomUUID, room);
     }
 
     private String createDir(UUID roomUUID) {
         File dir = new File("C:\\Users\\Sluski\\Desktop\\AppFolders\\" + roomUUID.toString());
         dir.mkdir();
         return dir.getAbsolutePath();
+    }
+
+    public Room findRoom(String roomUUID) {
+        return rooms.get(UUID.fromString(roomUUID));
     }
 }

@@ -7,18 +7,20 @@ import java.util.List;
  * @author Sluski
  */
 public class User {
+
+    private String roomKey;
     private String clientAddress;
     private String clientSSID;
     private String nick;
     private List<String> tags;
-    private boolean isActive;
-    private boolean inConversation;
-    
-    public User(String clienetAddress, String clientSSID){
-        isActive = false;
-        inConversation =  false;
+
+    public User(String clienetAddress, String clientSSID) {
         this.clientSSID = clientSSID;
         this.clientAddress = clienetAddress;
+    }
+    
+    public User(){
+    
     }
 
     public String getNick() {
@@ -33,22 +35,6 @@ public class User {
         return tags;
     }
 
-    public boolean isLooking() {
-        return isActive;
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public boolean isInConversation() {
-        return inConversation;
-    }
-
-    public void setInConversation(boolean inConversation) {
-        this.inConversation = inConversation;
-    }
-
     public String getClientAddress() {
         return clientAddress;
     }
@@ -60,4 +46,13 @@ public class User {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
+    public String getRoomKey() {
+        return roomKey;
+    }
+
+    public void setRoomKey(String roomKey) {
+        this.roomKey = roomKey;
+    }
+
 }

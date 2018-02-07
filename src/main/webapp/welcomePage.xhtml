@@ -10,13 +10,13 @@
     </h:head>
     <h:body>
         <h:form>
-            <h:inputText id="nick_text" value="#{userController.nick}" />
-            <p:selectCheckboxMenu id="categories" value="#{userController.selectedCategories}" label="Tags"
+            <h:inputText id="nick_text" value="#{startView.nick}" />
+            <p:selectCheckboxMenu id="categories" value="#{startView.selectedCategories}" label="Tags"
                                   filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-                <f:selectItems value="#{userController.categories}" />
+                <f:selectItems value="#{startView.categories}" />
             </p:selectCheckboxMenu>
             <br/>
-            <p:commandButton value="Find" action="#{userController.create(request)}" />
+            <h:commandButton value="Find" action="#{startView.create(request)}" />
         </h:form>
     </h:body>
 </html>
