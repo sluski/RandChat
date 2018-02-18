@@ -4,7 +4,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.servlet.http.HttpServletRequest;
 import model.services.RoomService;
-import org.atmosphere.config.service.PathParam;
 
 /**
  *
@@ -16,11 +15,10 @@ public class RoomView {
 
     private final RoomService roomService;
     private String message;
-
-    @PathParam
     private String room;
-    @PathParam
     private String user;
+    private String alienUser;
+    private String commingMessage;
 
     public RoomView() {
         roomService = new RoomService();
@@ -35,12 +33,8 @@ public class RoomView {
     private void setParams() {
         room = roomService.getRoomKey();
         user = roomService.getConnectedUser().getClientSSID();
+        if(roomService.getAlienUser() != null) alienUser = roomService.getAlienUser().getClientSSID();
     }
-
-//    public void send() {
-//        EventBus eventBus = EventBusFactory.getDefault().eventBus();
-//        eventBus.publish("/{room}/{user}", String.valueOf(message));
-//    }
 
     public String getMessage() {
         return message;
@@ -50,4 +44,19 @@ public class RoomView {
         this.message = message;
     }
 
+    public String getRoom() {
+        return room;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getComingMessage() {
+        return commingMessage;
+    }
+
+    public void setComingMessage(String comingMessage) {
+        this.commingMessage = comingMessage;
+    }
 }
