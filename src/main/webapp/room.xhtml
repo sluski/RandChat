@@ -2,27 +2,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>Rand Chat Conversation</title>
+        <title>Facelet Title</title>
     </h:head>
     <h:body onload="#{roomView.setConncetedUser(request)}" style="background-color: darkslategray;">
         <h:form>
             <div style="margin-left: auto; margin-right: auto; width: 1010px;">
-                <p:inputTextarea disabled="true" style="width: 1000px; min-height: 500px; background-color: white; 
-                                 margin-left: auto; margin-right: auto; color: black; font-size: 20px; 
-                                 text-decoration: none; text-transform: none;" value="Rand Chat: You'r connected with stranger, say hello"/><br/>
+                <p:inputTextarea id="output" disabled="true" style="width: 1000px; min-height: 500px; background-color: white; 
+                    margin-left: auto; margin-right: auto; color: black; font-size: 20px;"/><br/>
                 <p:inputText style="width: 800px; min-height: 28px; margin: 0; padding-top: 4px;" value="#{roomView.message}"/>
                 <p:commandButton value="Send" style="width: 200px; min-height: 28px;
-                                 margin: 0; padding-top: 0px; padding-bottom: 0;" actionListener="#{roomView.send()}"/>
+                                 margin: 0; padding-top: 0px; padding-bottom: 0;" action="#{roomView.send()}"/>
             </div>
-            <p:outputLabel value="#{roomView.comingMessage}" />
+            <div id="output">a</div>
         </h:form>
-
-        <p:socket channel="/test" onMessage="handleMessage" />
-
-
-
+        <p:socket channel="/notify" onMessage="handleMessage" />
+        <script type="text/javascript">
+            function handleMessage(data) {
+                document.getElementById('output').innerHTML = data;
+            }
+        </script>
     </h:body>
 </html>
 

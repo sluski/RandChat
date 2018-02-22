@@ -27,6 +27,7 @@ public class UserServices extends HttpServlet {
     public void createUser(HttpServletRequest request, List<String> tags) {
         User user = new User(request.getRemoteAddr(), request.getRequestedSessionId());
         user.setTags(tags);
+        UserManager.removeIfExist(user.getClientAddress());
         UserManager.add(user);
         addToRoomOrCreate(user);
     }

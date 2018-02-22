@@ -7,6 +7,11 @@ package model.pojo;
 public class Message {
     private User author;
     private String message;
+    
+    public Message(User user, String message){
+        this.author = user;
+        this.message = message;
+    }
 
     public User getAuthor() {
         return author;

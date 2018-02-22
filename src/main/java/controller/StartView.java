@@ -3,7 +3,7 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.servlet.http.HttpServletRequest;
 import model.services.UserServices;
 
@@ -12,7 +12,7 @@ import model.services.UserServices;
  * @author Sluski
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class StartView {
 
     private final UserServices userServices;
