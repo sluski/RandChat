@@ -1,5 +1,6 @@
 package model.services;
 
+import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import model.pojo.Message;
@@ -15,15 +16,13 @@ import org.primefaces.push.impl.JSONEncoder;
  *
  * @author Sluski
  */
-@PushEndpoint("/notify")
-@Singleton
+@PushEndpoint("/123/1")
 public class RoomService {
 
     private User connectedUser;
     private User alienUser;
     private final RoomManager roomManager;
-    private Message comingMessage;
-    int i = 1;
+    private static List<Message> conversation;
 
     @PathParam("room")
     private String roomKey;
@@ -55,8 +54,7 @@ public class RoomService {
 
     @OnMessage(encoders = {JSONEncoder.class})
     public boolean onMessage(Message comingMessage) {
-        setComingMessage(comingMessage);
-        i++;
+        conversation.add(comingMessage);
         return true;
     }
 
@@ -79,14 +77,4 @@ public class RoomService {
     public String getUser() {
         return user;
     }
-
-    public Message getComingMessage() {
-        return comingMessage;
-    }
-
-    public void setComingMessage(Message comingMessage) {
-        this.comingMessage = comingMessage;
-    }
-    
-    
 }

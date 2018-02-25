@@ -25,11 +25,9 @@ public class RoomView {
     private String room;
     private User user;
     private String alienUser;
-    private List<Message> conversation;
 
     public RoomView() {
         roomService = new RoomService();
-        conversation = new ArrayList<>();
     }
 
     public void setConncetedUser(HttpServletRequest request) throws InterruptedException {
@@ -48,7 +46,7 @@ public class RoomView {
     public void send() {
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
         eventBus.publish("/notify", new Message(user, message));
-        conversation.add(roomService.getComingMessage());
+        
     }
 
     public String getMessage() {
