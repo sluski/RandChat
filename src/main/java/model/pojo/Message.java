@@ -5,20 +5,30 @@ package model.pojo;
  * @author Sluski
  */
 public class Message {
-    private User author;
+    private User sender;
+    private User recipient;
     private String message;
-    
-    public Message(User user, String message){
-        this.author = user;
+
+    public Message(User sender, User recipient, String message){
+        this.sender = sender;
+        this.recipient = recipient;
         this.message = message;
     }
-
-    public User getAuthor() {
-        return author;
+    
+    public User getSender() {
+        return sender;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public User getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(User recipient) {
+        this.recipient = recipient;
     }
 
     public String getMessage() {

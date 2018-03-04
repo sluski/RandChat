@@ -55,4 +55,11 @@ public class User {
         this.roomKey = roomKey;
     }
 
+    public void setClientAddress(String clientAddress) {
+        this.clientAddress = clientAddress;
+    }
+
+    public void setClientSSID(String clientSSID) {
+        this.clientSSID = clientSSID;
+    }
 }

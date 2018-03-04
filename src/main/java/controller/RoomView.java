@@ -6,58 +6,74 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.servlet.http.HttpServletRequest;
 import model.pojo.Message;
-import model.pojo.User;
 import model.services.RoomService;
-import org.primefaces.push.EventBus;
-import org.primefaces.push.EventBusFactory;
-
+import org.primefaces.push.annotation.OnMessage;
+import org.primefaces.push.annotation.PathParam;
+import org.primefaces.push.annotation.PushEndpoint;
+import org.primefaces.push.impl.JSONEncoder;
 
 /**
  *
  * @author Sluski
  */
+@PushEndpoint("/test")
 @ManagedBean
 @SessionScoped
 public class RoomView {
 
     private final RoomService roomService;
     private String message;
+    private final List<String> conversation;
+
+    @PathParam("room")
     private String room;
-    private User user;
-    private String alienUser;
 
     public RoomView() {
         roomService = new RoomService();
-    }
-
-    public void setConncetedUser(HttpServletRequest request) throws InterruptedException {
-        roomService.setRoomValues(request);
-        setParams();
-    }
-
-    private void setParams() {
-        room = roomService.getRoomKey();
-        user = roomService.getConnectedUser();
-        if (roomService.getAlienUser() != null) {
-            alienUser = roomService.getAlienUser().getClientSSID();
-        }
-    }
-
-    public void send() {
-        EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish("/notify", new Message(user, message));
-        
-    }
-
-    public String getMessage() {
-        return message;
+        conversation = new ArrayList<>();
+        conversation.add("RandChat: You'r connected with other user, say hello");
     }
 
     public void setMessage(String message) {
         this.message = message;
     }
 
-    public User getUser() {
-        return user;
+    public void send(HttpServletRequest request) {
+        roomService.send(message, request);
+        message = "";
+
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setConversation(HttpServletRequest request) {
+        String conversationRow;
+        Message temp = roomService.getClientConversation(request).get(roomService.getClientConversation(request).size() - 1);
+        conversationRow = temp.getSender().getNick() + ": " + temp.getMessage();
+        conversation.add(conversationRow);
+    }
+
+    public List<String> getConversation() {
+        return conversation;
+    }
+
+    @OnMessage(encoders = {JSONEncoder.class})
+    public boolean onMessage(boolean confirm) {
+        return confirm;
+    }
+    
+    public void setParam(HttpServletRequest request){
+        room = roomService.findUserBySSID(request.getRequestedSessionId()).getRoomKey();
+    }
+
+    public String getRoom() {
+        return room;
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
+    }
+    
 }

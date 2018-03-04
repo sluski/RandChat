@@ -2,28 +2,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body onload="#{roomView.setConncetedUser(request)}" style="background-color: darkslategray;">
+    <h:body style="background-color: darkslategray;" onload="#{roomView.setParam(request)}">
         <h:form>
             <div style="margin-left: auto; margin-right: auto; width: 1010px;">
-                <p:inputTextarea id="output" disabled="true" style="width: 1000px; min-height: 500px; background-color: white; 
-                    margin-left: auto; margin-right: auto; color: black; font-size: 20px;"/><br/>
-                <p:inputText style="width: 800px; min-height: 28px; margin: 0; padding-top: 4px;" value="#{roomView.message}"/>
-                <p:commandButton value="Send" style="width: 200px; min-height: 28px;
-                                 margin: 0; padding-top: 0px; padding-bottom: 0;" action="#{roomView.send()}"/>
+                <p:dataTable id="output" var="message" style="min-height: 500px; background-color: white;" scrollable="true" value="#{roomView.conversation}">
+                    <p:column>
+                        <h:outputText value="#{message}" />
+                    </p:column>
+                </p:dataTable>
+                <p:inputText value="#{roomView.message}" style="width: 800px; min-height: 28px; margin: 0; padding-top: 4px;"/>
+                <p:commandButton value="Send" action="#{roomView.send(request)}" style="width: 200px; 
+                                 min-height: 28px; margin: 0; padding-top: 0px; padding-bottom: 0;" />
+                <p:commandButton value="Check" action="#{roomView.setConversation(request)}" update="#{p:component('output')}" />
+                <div id="temp">null</div>
             </div>
-            <div id="output">a</div>
+            <p:socket onMessage="hendleMessage" channel="/#{roomView.room}" />
+            <script type="text/javascript">
+                function hendleMessage(var t) {
+                    document.getElementById('temp').innerHTML = 'true';
+
+                }
+            </script>
         </h:form>
-        <p:socket channel="/notify" onMessage="handleMessage" />
-        <script type="text/javascript">
-            function handleMessage(data) {
-                document.getElementById('output').innerHTML = data;
-            }
-        </script>
     </h:body>
 </html>
 

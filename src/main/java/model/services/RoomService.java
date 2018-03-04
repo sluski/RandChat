@@ -1,80 +1,53 @@
 package model.services;
 
 import java.util.List;
-import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import model.pojo.Message;
 import model.pojo.Room;
 import model.pojo.User;
-import org.primefaces.push.annotation.OnMessage;
-import org.primefaces.push.annotation.PathParam;
-import org.primefaces.push.annotation.PushEndpoint;
-import org.primefaces.push.annotation.Singleton;
-import org.primefaces.push.impl.JSONEncoder;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 /**
  *
  * @author Sluski
  */
-@PushEndpoint("/123/1")
 public class RoomService {
 
-    private User connectedUser;
-    private User alienUser;
-    private final RoomManager roomManager;
-    private static List<Message> conversation;
-
-    @PathParam("room")
-    private String roomKey;
-    @PathParam("user")
-    private String user;
+    private Message message;
 
     public RoomService() {
-        connectedUser = new User();
-        roomManager = new RoomManager();
     }
 
-    public void setRoomValues(HttpServletRequest request) throws InterruptedException {
-        connectedUser = UserManager.returnBySSID(request.getRequestedSessionId());
-        roomKey = connectedUser.getRoomKey();
-        user = connectedUser.getClientSSID();
-        setAlienUser();
+    public void send(String messageContent, HttpServletRequest request) {
+        User sender = UserManager.findBySSID(request.getRequestedSessionId());
+        User recipient = findRecipientBySender(sender);
+        message = new Message(sender, recipient, messageContent);
+        RoomManager.findRoom(recipient.getRoomKey()).addToConversation(message);
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish("/test", true);
     }
 
-    public void setAlienUser() {
-        if (isPairInRoom(roomKey)) {
-            Room room = RoomManager.rooms.get(UUID.fromString(roomKey));
-            if (room.getFirstUser().equals(connectedUser)) {
-                alienUser = room.getSecondUser();
-            } else {
-                alienUser = room.getFirstUser();
-            }
+    public User findRecipientBySender(User sender) {
+        Room room = RoomManager.findRoom(sender.getRoomKey());
+        if (room.getFirstUser() == sender) {
+            return room.getSecondUser();
+        } else {
+            return room.getFirstUser();
         }
     }
 
-    @OnMessage(encoders = {JSONEncoder.class})
-    public boolean onMessage(Message comingMessage) {
-        conversation.add(comingMessage);
-        return true;
+    public Message getMessage() {
+        return message;
     }
 
-    public String getRoomKey() {
-        return roomKey;
+    public List<Message> getClientConversation(HttpServletRequest request) {
+        User client = UserManager.findBySSID(request.getRequestedSessionId());
+        Room room = RoomManager.findRoom(client.getRoomKey());
+        return room.getConversation();
     }
-
-    public User getConnectedUser() {
-        return connectedUser;
-    }
-
-    public boolean isPairInRoom(String roomUUID) {
-        return roomManager.findRoom(roomUUID).isIsPair();
-    }
-
-    public User getAlienUser() {
-        return alienUser;
-    }
-
-    public String getUser() {
-        return user;
+    
+    public User findUserBySSID(String userSSID){
+        return UserManager.findBySSID(userSSID);
     }
 }

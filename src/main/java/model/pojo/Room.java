@@ -11,7 +11,7 @@ public class Room {
     private User firstUser;
     private User secondUser;
     private String filesPath;
-    private List<Message> conversation;
+    private final List<Message> conversation;
     private boolean isPair;
     
     public Room (User firstUser, User secondUser, String filesPath){
@@ -26,8 +26,8 @@ public class Room {
         return conversation;
     }
 
-    public void setConversation(List<Message> conversation) {
-        this.conversation = conversation;
+    public void addToConversation(Message incomingMessage) {
+        conversation.add(incomingMessage);
     }
 
     public User getFirstUser() {

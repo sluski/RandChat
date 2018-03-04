@@ -10,7 +10,7 @@ import model.pojo.User;
  */
 public final class UserManager {
 
-    private static final List<User> allUsers = new ArrayList<>();
+    public static final List<User> allUsers = new ArrayList<>();
 
     public static void add(User user) {
         allUsers.add(user);
@@ -25,7 +25,7 @@ public final class UserManager {
         return null;
     }
 
-    public static User find(String clientAddress) {
+    public static User findByAddress(String clientAddress) {
         for (User usr : allUsers) {
             if (usr.getClientAddress().equals(clientAddress)) {
                 return usr;
@@ -34,13 +34,24 @@ public final class UserManager {
         return null;
     }
 
+    public static User findBySSID(String clientSSID) {
+        for (User usr : allUsers) {
+            if (usr.getClientSSID().equals(clientSSID)) {
+                return usr;
+            }
+        }
+        return null;
+    }
+
     public static boolean userExist(String clientAddress) {
-        return find(clientAddress) != null;
+        return findByAddress(clientAddress) != null;
     }
 
     public static void removeIfExist(String userAddress) {
         for (User usr : allUsers) {
-            if (userAddress.equals(usr.getClientAddress())) allUsers.remove(usr);
+            if (userAddress.equals(usr.getClientAddress())) {
+                allUsers.remove(usr);
+            }
         }
     }
 }

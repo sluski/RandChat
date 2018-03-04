@@ -48,7 +48,6 @@ public class UserServices extends HttpServlet {
     }
 
     public void addToRoomOrCreate(User user) {
-        RoomManager room = new RoomManager();
         for (Room item : RoomManager.rooms.values()) {
             if (!item.isIsPair()) {
                 user.setRoomKey(item.getFirstUser().getRoomKey());
@@ -57,6 +56,6 @@ public class UserServices extends HttpServlet {
                 return;
             }
         }
-        room.create(user, null);
+        RoomManager.create(user, null);
     }
 }
