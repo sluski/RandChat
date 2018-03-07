@@ -13,7 +13,10 @@ public final class UserManager {
     public static final List<User> allUsers = new ArrayList<>();
 
     public static void add(User user) {
-        allUsers.add(user);
+        if(user == null) throw new NullPointerException();    
+        else allUsers.add(user);
+            
+        
     }
 
     public static User returnBySSID(String clientSSID) {
@@ -48,9 +51,10 @@ public final class UserManager {
     }
 
     public static void removeIfExist(String userAddress) {
-        for (User usr : allUsers) {
+        for(User usr : allUsers) {
             if (userAddress.equals(usr.getClientAddress())) {
                 allUsers.remove(usr);
+                break;
             }
         }
     }
